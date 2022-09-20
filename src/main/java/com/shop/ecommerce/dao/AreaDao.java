@@ -7,4 +7,6 @@ import java.util.List;
 public interface AreaDao {
 
     List<Area> queryAreaList();
+
+    Area getAreaByAreaId(long areaId);
 }

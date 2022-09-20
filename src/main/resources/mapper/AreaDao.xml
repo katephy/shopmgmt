@@ -9,4 +9,10 @@
  		FROM tb_area
  		ORDER BY priority
     </select>
+
+    <select id = "getAreaByAreaId" resultType = "com.shop.ecommerce.entity.Area">
+ 		SELECT area_id, area_name, priority, time_created, time_updated
+ 		FROM tb_area where area_id=#{areaId}
+ 	</select>
+
 </mapper>
