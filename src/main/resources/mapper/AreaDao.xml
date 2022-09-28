@@ -15,4 +15,31 @@
  		FROM tb_area where area_id=#{areaId}
  	</select>
 
+	<insert id="insertArea"
+			useGeneratedKeys="true" keyProperty="areaId" keyColumn="area_id">
+		INSERT INTO
+		tb_area(area_name,priority,time_created,
+		time_updated)
+		VALUES
+		(#{areaName},#{priority},#{timeCreated},#{timeUpdated})
+	</insert>
+
+	<update id="updateArea" parameterType="com.shop.ecommerce.entity.Area">
+		update tb_area
+		<set>
+			<if test="areaName != null">area_name=#{areaName},</if>
+			<if test="priority != null">priority=#{priority},</if>
+			<if test="timeUpdated != null">time_updated=#{timeUpdated}</if>
+		</set>
+		where area_id=#{areaId}
+	</update>
+
+	<delete id="deleteArea">
+		DELETE FROM
+		tb_area
+		WHERE
+		area_id =
+		#{areaId}
+	</delete>
+
 </mapper>
