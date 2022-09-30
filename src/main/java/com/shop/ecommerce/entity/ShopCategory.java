@@ -8,6 +8,11 @@ import java.util.Date;
 @Getter
 @Setter
 public class ShopCategory {
+    /**
+     *     A: root ~ parentId = null
+     *    /
+     *   B: child ~ parentId: A != null
+     */
     private Long shopCategoryId;
     private String shopCategoryName;
     private String shopCategoryDesc;
