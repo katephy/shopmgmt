@@ -10,5 +10,9 @@ public interface ShopCategoryDao {
 
     List<ShopCategory> queryShopCategory(@Param("shopCategoryCondition") ShopCategory shopCategoryCondition);
 
+    int insertShopCategory(ShopCategory shopCategory);
 
+    ShopCategory queryShopCategoryById(long shopCategoryId);
+
+    int updateShopCategory(ShopCategory shopCategory);
 }

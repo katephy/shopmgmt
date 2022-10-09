@@ -13,4 +13,11 @@
 
     <!-- controller component-scan-->
     <context:component-scan base-package="com.shop.ecommerce.controller" />
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- Setting the Maximum upload size -->
+        <property name="maxUploadSize" value="1000000000000000" />
+
+    </bean>
 </beans>
