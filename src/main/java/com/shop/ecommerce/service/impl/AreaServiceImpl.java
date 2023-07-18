@@ -1,5 +1,9 @@
 package com.shop.ecommerce.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shop.ecommerce.cache.JedisUtil;
 import com.shop.ecommerce.dao.AreaDao;
 import com.shop.ecommerce.dto.AreaExecution;
 import com.shop.ecommerce.entity.Area;
@@ -9,17 +13,48 @@ import com.shop.ecommerce.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class AreaServiceImpl implements AreaService {
 
+    public static final String AREALISTKEY = "arealist";
+
     @Autowired
     private AreaDao areaDao;
 
+    @Autowired
+    private JedisUtil.Keys jedisKeys;
+
+    @Autowired
+    private JedisUtil.Strings jedisStrings;
+
     public List<Area> getAreaList() {
-        return areaDao.queryAreaList();
+        String key = AREALISTKEY;
+        List<Area> areaList = null;
+        ObjectMapper mapper = new ObjectMapper();
+        if (!jedisKeys.exists(key)) {
+            areaList = areaDao.queryAreaList();
+            String jsonString;
+            try {
+                jsonString = mapper.writeValueAsString(areaList);
+            } catch (JsonProcessingException e) {
+                throw new AreaOperationException(e.getMessage());
+            }
+            jedisStrings.set(key, jsonString);
+        } else {
+          String jsonString = jedisStrings.get(key);
+          try {
+              JavaType javaType = mapper.getTypeFactory().constructParametricType(ArrayList.class, Area.class);
+              areaList = mapper.readValue(jsonString, javaType);
+          } catch (Exception e) {
+              throw new AreaOperationException(e.getMessage());
+          }
+        }
+
+        return areaList;
     }
 
     public Area getAreaById(long areaId) {
