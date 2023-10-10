@@ -6,7 +6,6 @@ import com.shop.ecommerce.enums.AreaState;
 import com.shop.ecommerce.request.area.GetAreaByIdRequest;
 import com.shop.ecommerce.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,9 +52,9 @@ public class AreaController {
         try {
             Area area = areaService.getAreaById(areaId);
             modelMap.put("data", area);
-        } catch (BadSqlGrammarException e) {
+        } catch (Exception e) {
             modelMap.put("success", false);
-            modelMap.put("errMsg", "Bad SQL Query");
+            modelMap.put("errMsg", e.toString());
         }
         return modelMap;
     }
@@ -67,9 +66,6 @@ public class AreaController {
         try {
             Area area = areaService.getAreaById(areaId);
             modelMap.put("data", area);
-        } catch (BadSqlGrammarException e) {
-            modelMap.put("success", false);
-            modelMap.put("errMsg", "Bad SQL Query");
         } catch (Exception e) {
             modelMap.put("success", false);
             modelMap.put("errMsg", "Additional Exceptions");
@@ -84,9 +80,6 @@ public class AreaController {
         try {
             Area area = areaService.getAreaById(getAreaByIdRequest.getAreaId());
             modelMap.put("data", area);
-        } catch (BadSqlGrammarException e) {
-            modelMap.put("success", false);
-            modelMap.put("errMsg", "Bad SQL Query");
         } catch (Exception e) {
             modelMap.put("success", false);
             modelMap.put("errMsg", "Additional Exceptions");

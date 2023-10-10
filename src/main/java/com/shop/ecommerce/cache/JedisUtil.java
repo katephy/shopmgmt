@@ -41,6 +41,9 @@ public class JedisUtil {
 
     // *******************************************Keys*******************************************//
     public class Keys {
+        public Keys() {
+
+        }
         public Keys(JedisUtil jedisUtil) {
         }
 
@@ -54,6 +57,10 @@ public class JedisUtil {
 
     // *******************************************Strings*******************************************//
     public class Strings {
+
+        public Strings() {
+
+        }
         public Strings(JedisUtil jedisUtil) {
         }
 
